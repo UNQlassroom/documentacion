@@ -30,6 +30,41 @@ Para optimizar el uso de la API y mantener un modelo de permisos escalable, se d
 
 # User Stories
 
+## US2 - Agregar alumno al curso
+
+### Actor/es
+- Docente
+
+### Funcionalidad
+Como profesor, quiero agregar alumnos a un curso para poder tenerlos listados y asignarles tareas.
+
+### Valor aportado
+Facilita la gestión de la matrícula dentro de la plataforma, permitiendo incorporar estudiantes al entorno de evaluación directamente mediante sus usuarios de GitHub.
+
+### Criterios de aceptación
+- Debe existir un botón "Invitar" en la vista de cada curso que, al ser accionado, abra una ventana o modal emergente.
+- La ventana de invitación debe proveer un campo de texto en el cual el profesor pueda ingresar los nombres de los usuarios de GitHub a añadir al curso.
+- Junto al campo de texto, debe existir un botón "Invitar alumnos" que, al ser accionado, envíe la invitación a los usuarios especificados.
+
+---
+
+## US46 - Crear repositorio individual por alumno
+
+### Actor/es
+- Docente
+
+### Funcionalidad
+Como profesor, quiero que al invitar a un alumno al curso se le genere automáticamente un repositorio individual en GitHub para que pueda comenzar a programar rápidamente.
+
+### Valor aportado
+Automatiza la provisión de infraestructura inicial para cada estudiante, eliminando la creación manual de repositorios y garantizando una convención de nombres uniforme en toda la organización.
+
+### Criterios de aceptación
+- El repositorio generado en GitHub debe respetar estrictamente el formato `[curso]_[nombreDeUsuarioDelAlumno]` (por ejemplo: `2026s2_c3_programacion_funcional_thiagoDePrueba`).
+- El repositorio debe ser aprovisionado exitosamente en la organización incluso si el alumno todavía no es miembro activo de la misma.
+
+---
+
 ## US19 - Monitorear estado de repositorios
 
 ### Actor/es
