@@ -16,10 +16,10 @@ En esta etapa se implementaron y validaron:
 ### Decisiones tomadas
 
 #### Desacoplamiento de la lógica de dominio
-Se estableció que la base de datos relacional de la aplicación actuará como la única "fuente de la verdad" para definir la estructura de los cursos, alumnos y agrupamientos. GitHub se utilizará estrictamente como capa de infraestructura externa, sin intentar replicar el modelo académico en su sistema de permisos.
+Se estableció que la base de datos relacional de la aplicación actuará como la única "fuente de la verdad" para definir la estructura de los cursos y alumnos. GitHub se utilizará estrictamente como capa de infraestructura externa, sin intentar replicar el modelo académico en su sistema de permisos.
 
 #### Gestión de accesos híbrida (Colaboradores y Teams)
-Para optimizar el uso de la API y mantener un modelo de permisos escalable, se determinó crear un repositorio con acceso de "colaborador directo" para las asignaciones individuales, reservando el uso de "GitHub Teams" únicamente para los futuros trabajos prácticos de modalidad grupal.
+Para optimizar el uso de la API y mantener un modelo de permisos escalable, se determinó crear un repositorio con acceso de "colaborador externo" para las asignaciones individuales, reservando el uso de "GitHub Teams" únicamente para los futuros trabajos prácticos de modalidad grupal.
 
 ### Desafíos técnicos encontrados
 
@@ -64,24 +64,6 @@ Centraliza el acceso del estudiante a sus espacios de trabajo académicos, prove
 
 ---
 
-## US21 - Visualizar detalles y equipo de la asignación
-
-### Actor/es
-- Alumno
-
-### Funcionalidad
-Como alumno, quiero ver los detalles de mi asignación activa y la lista de mis compañeros de equipo (si aplica), para confirmar mi grupo de trabajo y entender el contexto de la entrega.
-
-### Valor aportado
-Brinda claridad al estudiante sobre sus responsabilidades y su entorno social asignado, manteniendo la interfaz limpia de ruido si el trabajo es de resolución individual.
-
-### Criterios de aceptación
-- Cuando el alumno ingrese a la vista principal del curso, debe visualizar las tarjetas o secciones de las asignaciones activas.
-- Si el alumno abre una asignación configurada como "Grupal", entonces debe ver una sección claramente identificada que liste los nombres de todos sus compañeros de equipo.
-- Si el alumno abre una asignación configurada como "Individual", entonces la sección de compañeros de equipo no debe mostrarse.
-
----
-
 ## US22 - Acceder al repositorio de código
 
 ### Actor/es
@@ -96,7 +78,6 @@ Reduce drásticamente la fricción inicial para comenzar a trabajar, asegurando 
 ### Criterios de aceptación
 - El alumno al visualizar el detalle de su asignación, debe tener la opción de "Ir al Repositorio" (o similar) mediante un botón.
 - Si la asignación es individual, cuando el alumno hace clic, debe ser redirigido a su repositorio privado único.
-- Si la asignación es grupal, cuando el alumno hace clic, debe ser redirigido al repositorio privado compartido por su equipo.
 - Si el repositorio aún no ha sido creado o hubiera un fallo de sincronización con la API, entonces el botón debe estar deshabilitado o mostrar un estado de "Creando repositorio".
 
 ---
