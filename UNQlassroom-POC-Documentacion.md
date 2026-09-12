@@ -15,8 +15,11 @@ En esta etapa se implementaron y validaron:
 
 ### Decisiones tomadas
 
-#### Desacoplamiento de la lógica de dominio
-Se estableció que la base de datos relacional de la aplicación actuará como la única "fuente de la verdad" para definir la estructura de los cursos y alumnos. GitHub se utilizará estrictamente como capa de infraestructura externa, sin intentar replicar el modelo académico en su sistema de permisos.
+#### Modelo de persistencia híbrido y delegación en GitHub
+Se adoptó un modelo de integración donde GitHub actúa como el registro de membresía, validando y obteniendo la pertenencia de los       
+alumnos al curso a través de los GitHub Teams. Asimismo, la creación y gestión de accesos a los repositorios se delega en la organización de    
+GitHub, mientras que la base de datos local funciona como soporte relacional, almacenando las referencias y vínculos esenciales entre cursos,   
+usuarios y repositorios.
 
 #### Gestión de accesos híbrida (Colaboradores y Teams)
 Para optimizar el uso de la API y mantener un modelo de permisos escalable, se determinó crear un repositorio con acceso de "colaborador externo" para las asignaciones individuales, reservando el uso de "GitHub Teams" únicamente para los futuros trabajos prácticos de modalidad grupal.
