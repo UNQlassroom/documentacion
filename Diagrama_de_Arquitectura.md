@@ -67,7 +67,7 @@ flowchart LR
 
 ---
 
-## Responsabilidades
+## Responsanilidades
 
 ### Frontend
 * **`CrearAsignacionModal.tsx` (Componente de Asignación):** Componente interactivo que renderiza el formulario de alta de asignación, valida los campos ingresados (título, descripción, fecha límite, template) y permite configurar la modalidad individual o grupal.
