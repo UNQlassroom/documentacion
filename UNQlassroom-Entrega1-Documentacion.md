@@ -3,121 +3,184 @@
 ## Resumen Ejecutivo
 
 ### Qué se agregó/modificó en esta iteración
-En esta primera entrega, el producto evolucionó de una prueba de concepto (PoC) a una plataforma funcional capaz de gestionar el ciclo de vida completo de una asignación académica. 
 
-Las principales funcionalidades incorporadas incluyen:
-- **Autenticación segura:** Se implementó el registro y login delegando la identidad a GitHub (OAuth 2.0).
-- **Gestión de Asignaciones:** Los docentes ahora pueden crear asignaciones (individuales o grupales) y los alumnos pueden acceder a un panel dedicado para visualizar sus entregas pendientes.
-- **Flujo de Entrega Automatizado:** Se desarrolló un sistema donde el alumno entrega su trabajo desde la plataforma, orquestando la creación automática de un *Release* en GitHub.
-- **Sistema de Calificación y Retroalimentación Nativo:** Los docentes pueden calificar con una nota numérica y enviar comentarios que impactan directamente en la vista de los alumnos.
+En esta primera entrega, el sistema incorporó los flujos principales para el dictado y cursada de una materia, conectando la plataforma web con la automatización en GitHub.
+
+Las funcionalidades desarrolladas incluyen:
+
+- **Autenticación e Identidad**, integrando registro e inicio de sesión directamente con GitHub para los roles de Alumno y Docente.
+- **Gestión de Cursos y Asignaciones**, brindando capacidad para que el docente visualice a sus alumnos y cree asignaciones (individuales o grupales), generando de forma automática los repositorios correspondientes.
+- **Flujo de Entregas y Reentregas Automático**, permitiendo al alumno visualizar sus tareas y marcar una asignación como entregada (o reentregarla), lo cual orquesta la creación automática de un Release en su repositorio de GitHub.
+- **Sistema de Calificación y Feedback**, incorporando un panel para que el docente asigne notas numéricas locales y accesos directos para generar Issues (correcciones) directamente en el repositorio de cada alumno.
 
 ### Decisiones tomadas
-- **Adopción de OAuth 2.0 para Login:** Se decidió descartar el registro manual con contraseña. Al forzar el inicio de sesión con GitHub, eliminamos el margen de error humano al tipear el *username*, garantizando que la orquestación de repositorios siempre apunte al usuario correcto.
-- **Reemplazo de GitHub Teams por manejo propio:** Decidimos abandonar la dependencia de los *Teams* de GitHub para organizar a los alumnos. La base de datos relacional (PostgreSQL) se consolidó como la única fuente de verdad para los roles (Docente/Alumno) y agrupaciones, utilizando a GitHub puramente como infraestructura de almacenamiento de código.
-- **Entregas mediante Releases Automáticos:** Para evitar que alumnos sin experiencia lidien con comandos complejos de Git para "sellar" una entrega, decidimos que el backend de Spring Boot automatice la creación de un *Release* en el repositorio cuando el alumno presiona el botón "Entregar" antes de la fecha límite.
+
+#### Autenticación delegada (OAuth con GitHub)
+Se decidió no implementar un sistema de contraseñas propio. Al delegar el registro e inicio de sesión a GitHub, nos aseguramos de que la identidad del usuario en la plataforma coincida exactamente con su cuenta real, eliminando errores tipográficos al invitar alumnos y crear repositorios.
+
+#### Entregas inmutables mediante Releases
+Para evitar que el alumno lidie con comandos de Git (`git tag`, `git push`) al momento de entregar, el sistema se encarga de generar automáticamente un Release a partir de la rama `main` cuando se acciona el botón "Entregar" o "Reentregar". Esto le asegura al docente una "foto" exacta del código al momento del cierre.
+
+#### Integración ligera para retroalimentación
+En lugar de replicar toda la interfaz de comentarios de GitHub dentro de nuestra plataforma, se optó por una estrategia de redirección nativa. El docente califica numéricamente en UNQlassroom, pero al querer dejar comentarios extensos, el sistema lo redirige a la sección de Issues del repositorio específico, aprovechando las herramientas que GitHub ya provee.
 
 ---
 
-## User Stories
+# User Stories
 
-### US48 - Crear registro/login de usuarios[cite: 1]
-**Actor/es:** Docente / Alumno
-**Funcionalidad:** Como usuario, quiero poder registrarme e iniciar sesión en la plataforma utilizando mi cuenta de GitHub.
+## US48 - Crear registro/login de usuarios
 
-**Valor aportado:** Agiliza el acceso a la plataforma, elimina la necesidad de gestionar contraseñas locales y garantiza que el nombre de usuario coincida exactamente con el perfil de GitHub, evitando fallos en la asignación de repositorios.
+### Actor/es
+- Usuario (Alumno / Docente)
 
-**Criterios de aceptación:**
-- La pantalla de inicio debe mostrar un botón "Iniciar sesión con GitHub".
-- El sistema debe utilizar el protocolo OAuth 2.0 para autenticar al usuario.
-- Si el usuario no existe en la base de datos, debe crearlo automáticamente con los datos provistos por GitHub; si existe, debe loguearlo.
+### Funcionalidad
+Como usuario quiero registrarme en la aplicación para poder gestionar cursos o acceder a ellos.
 
----
+### Valor aportado
+Simplifica el acceso a la plataforma delegando la seguridad a un proveedor robusto (GitHub) y garantiza la consistencia de los nombres de usuario necesarios para la gestión automatizada de repositorios.
 
-### US20 - Crear asignación (Individual/Grupal)[cite: 1]
-**Actor/es:** Docente
-**Funcionalidad:** Como docente, quiero poder crear nuevas asignaciones dentro de mi curso, definiendo si son de resolución individual o grupal.
-
-**Valor aportado:** Permite estructurar la cursada, definir las reglas de entrega y preparar el terreno para que el sistema aprovisione los repositorios correspondientes para cada alumno o equipo.
-
-**Criterios de aceptación:**
-- Debe existir un formulario de creación de asignación dentro de la vista del curso.
-- El formulario debe permitir ingresar título, descripción, fecha límite (*deadline*) y seleccionar la modalidad (Individual o Grupal).
-- Al guardar, la asignación debe quedar listada en el panel del curso.
+### Criterios de aceptación
+- En la pantalla de registro debo ver un mensaje: "Bienvenido a UNQlassroom. Inicia sesión o regístrate utilizando tu cuenta de GitHub seleccionando tu rol."
+- En la pantalla de registro debe haber dos botones de "Ingresar como alumno" e "Ingresar como docente".
+- Debo poder loguearme con mis credenciales de GitHub.
 
 ---
 
-### US21 - Visualizar detalles y equipo de la asignación[cite: 1]
-**Actor/es:** Docente / Alumno
-**Funcionalidad:** Como usuario, quiero poder entrar a una asignación específica para ver su descripción, fecha de entrega y quiénes conforman el equipo de trabajo.
+## US49 - Acceder a un curso como docente
 
-**Valor aportado:** Otorga claridad sobre los requisitos del trabajo práctico y fomenta la organización interna de los alumnos al transparentar quiénes tienen acceso al repositorio compartido.
+### Actor/es
+- Docente
 
-**Criterios de aceptación:**
-- Al hacer clic en una asignación, se debe navegar a una vista de detalle.
-- Se debe mostrar el título, la consigna, la fecha límite y el estado actual de la entrega.
-- Se debe mostrar un listado con los nombres/usuarios de los integrantes asignados a esa tarea.
+### Funcionalidad
+Como docente quiero poder acceder a un curso en específico para poder crear asignaciones y tener más detalles del mismo.
 
----
+### Valor aportado
+Centraliza la administración académica en un solo panel de control, permitiendo al profesor gestionar el ciclo de vida completo de su materia y hacer seguimiento del progreso técnico de la clase.
 
-### US49 - Acceder a un curso como docente[cite: 1]
-**Actor/es:** Docente
-**Funcionalidad:** Como docente, quiero poder acceder a un curso en específico para poder crear asignaciones y tener más detalles del mismo.
-
-**Valor aportado:** Centraliza la administración de la materia, dándole al profesor un panel de control único para gestionar alumnos, crear tareas y monitorear el progreso.
-
-**Criterios de aceptación:**
-- Debo poder ver el listado de alumnos e invitarlos.
-- Debo poder crear asignaciones individuales/grupales.
-- Debo poder ver el listado de las asignaciones creadas y, dentro de cada una, el listado de alumnos asignados junto con los repositorios creados.
+### Criterios de aceptación
+- Debo poder ver el listado de alumnos, invitarlos, crear asignaciones individuales/grupales, y ver un resumen de estadísticas de los repositorios de GitHub.
+- Debo poder ver el listado de las asignaciones creadas y, dentro de cada una de ellas, el listado de alumno/s asignado/s, junto con los repositorios creados.
 
 ---
 
-### US50 - Acceder a un curso como alumno[cite: 1]
-**Actor/es:** Alumno
-**Funcionalidad:** Como alumno, quiero poder acceder a un curso en específico para poder ver mis asignaciones, mis calificaciones y mis tiempos de entrega asignados.
+## US50 - Acceder a un curso como alumno
 
-**Valor aportado:** Le brinda al estudiante un espacio de trabajo organizado, reduciendo la fricción para encontrar sus tareas y consultar el estado de sus evaluaciones.
+### Actor/es
+- Alumno
 
-**Criterios de aceptación:**
-- Debo poder ver el listado de asignaciones del curso.
-- Debo poder visualizar mis calificaciones y los estados de entrega (pendiente, entregado, corregido).
-- Debo disponer de redirección rápida a los *issues* y repositorios de cada asignación.
+### Funcionalidad
+Como alumno quiero poder acceder a un curso en específico para poder ver mis asignaciones, mis calificaciones y mis tiempos de entrega asignados.
 
----
+### Valor aportado
+Le otorga al estudiante un entorno claro y organizado para entender qué se espera de él, cuáles son las fechas límite y acceder a las devoluciones del docente sin fricción.
 
-### US77 - Entregar asignación[cite: 1]
-**Actor/es:** Alumno
-**Funcionalidad:** Como alumno, quiero poder marcar mi asignación como entregada desde la plataforma para que el docente sepa que finalicé mi trabajo.
-
-**Valor aportado:** Facilita el proceso de entrega sin requerir conocimientos avanzados de control de versiones. Automatiza la generación de una versión inmutable (*Release*) del código para que el docente corrija exactamente lo que se entregó antes del cierre.
-
-**Criterios de aceptación:**
-- La vista de la asignación debe tener un botón para "Entregar" que solo esté habilitado si la fecha actual es anterior al *deadline*.
-- Al accionar el botón, el sistema debe cambiar el estado de la entrega en la base de datos.
-- El backend debe comunicarse con GitHub para generar automáticamente un *Release* en el repositorio del alumno con el código actual de la rama principal.
+### Criterios de aceptación
+- Debo poder ver el listado de asignaciones, junto con mis calificaciones, los estados de entrega y redirección a los issues de cada asignación.
 
 ---
 
-### US51 - Calificar asignación[cite: 1]
-**Actor/es:** Docente
-**Funcionalidad:** Como docente, quiero calificar las asignaciones de los alumnos para que obtengan una nota numérica por su trabajo.
+## US20 - Crear asignación (Individual/Grupal)
 
-**Valor aportado:** Cierra el ciclo de evaluación académica, permitiendo llevar un registro persistente del rendimiento del alumno en la base de datos de la institución.
+### Actor/es
+- Docente
 
-**Criterios de aceptación:**
-- Cada entrega listada en el panel del docente debe poseer un botón "Calificar".
-- Al accionar el botón, se debe abrir un modal de calificación.
-- El modal debe contener un campo numérico para ingresar la nota, la cual debe guardarse en la base de datos asociada a esa entrega/release.
+### Funcionalidad
+Como docente, quiero crear una nueva asignación para el curso y definir si su resolución será de carácter individual o grupal.
+
+### Valor aportado
+Provee la flexibilidad necesaria para estructurar correctamente las diferentes modalidades de evaluación de la cátedra, disparando la creación automática de repositorios adecuados según la modalidad elegida.
+
+### Criterios de aceptación
+- La vista específica de un curso debe poseer un botón de "CREAR ASIGNACIÓN" que abra un modal de creación.
+- Al completar los datos básicos (título, descripción), se debe visualizar un control para seleccionar la modalidad: "Individual" o "Grupal".
+- Si se selecciona "Grupal", la interfaz debe desplegar un componente para seleccionar alumnos inscritos y agruparlos bajo un nombre de equipo.
+- Un alumno no debe estar en más de un equipo de una misma asignación.
+- Cada asignación debe crear un repositorio: uno por alumno (si es individual) o uno por grupo (si es grupal).
 
 ---
 
-### US53 - Crear issues sobre las asignaciones[cite: 1]
-**Actor/es:** Docente
-**Funcionalidad:** Como docente, quiero poder escribir una retroalimentación detallada al momento de calificar, y que esta se publique automáticamente como un *Issue* en el repositorio del alumno.
+## US21 - Visualizar detalles y equipo de la asignación
 
-**Valor aportado:** Entrega el *feedback* en el entorno natural del desarrollador (GitHub), fomentando que el alumno interactúe con las herramientas estándar de la industria para leer sus correcciones.
+### Actor/es
+- Alumno
 
-**Criterios de aceptación:**
-- El modal de calificación debe incluir un campo de texto para la retroalimentación.
-- Al confirmar la calificación, el backend debe consumir la API de GitHub para crear un *Issue* en el repositorio correspondiente.
-- El *Issue* creado debe contener el texto del docente y las etiquetas (*labels*) pertinentes (ej. "correccion-docente").
+### Funcionalidad
+Como alumno, quiero ver los detalles de mi asignación activa y la lista de mis compañeros de equipo (si aplica).
+
+### Valor aportado
+Garantiza la transparencia en los trabajos colaborativos, permitiendo al estudiante confirmar quiénes tienen acceso al repositorio compartido y entender el contexto general de la entrega.
+
+### Criterios de aceptación
+- Al ingresar a la vista principal del curso, se deben visualizar las tarjetas o secciones de las asignaciones activas.
+- Si la asignación es "Grupal", debe existir una sección claramente identificada que liste los nombres de todos los compañeros de equipo.
+- Si la asignación es "Individual", la sección de compañeros de equipo no debe mostrarse.
+
+---
+
+## US77 - Entregar asignación
+
+### Actor/es
+- Alumno
+
+### Funcionalidad
+Como usuario quiero entregar una asignación para cumplir a tiempo con mis tareas universitarias.
+
+### Valor aportado
+Abstrae la complejidad de etiquetar versiones en Git. El sistema garantiza que la entrega quede formalizada en un punto exacto en el tiempo mediante un Release automático, protegiendo el trabajo del alumno.
+
+### Criterios de aceptación
+- Debe existir un botón "entregar asignación" en cada asignación vinculada a mí o a mi equipo.
+- Al presionar el botón, debe quedar marcado como "Entregada" y generar un release de MAIN en GitHub.
+
+---
+
+## US82 - Reentregar asignación
+
+### Actor/es
+- Alumno
+
+### Funcionalidad
+Como alumno quiero reentregar una asignación para corregir errores.
+
+### Valor aportado
+Brinda flexibilidad frente a errores de último minuto, permitiendo actualizar la versión a evaluar siempre y cuando los plazos lo permitan, manteniendo el historial limpio.
+
+### Criterios de aceptación
+- Debe existir un botón "REENTREGAR" en cada asignación.
+- El botón debe abrir un modal que pregunte "¿Querés volver a entregar este trabajo? Al confirmar la reentrega, se creará un nuevo release en el repositorio correspondiente, reemplazando la entrega anterior." 
+- El modal debe poseer un botón de "Confirmar Reentrega".
+
+---
+
+## US51 - Calificar asignación
+
+### Actor/es
+- Docente
+
+### Funcionalidad
+Como docente, quiero calificar las asignaciones de los alumnos para que obtengan una retroalimentación de su trabajo.
+
+### Valor aportado
+Permite asentar formalmente la nota de evaluación de cada entrega directamente en la plataforma, centralizando el historial académico del curso.
+
+### Criterios de aceptación
+- Cada asignación debe poseer un botón "Calificar" el cual abre un modal de calificación.
+- El modal de calificación contiene un campo numérico y un campo de texto en el cual el docente puede escribir la retroalimentación.
+
+---
+
+## US53 - Crear issues sobre las asignaciones
+
+### Actor/es
+- Docente
+
+### Funcionalidad
+Como docente quiero crear issues sobre las asignaciones de los alumnos para enviarles comentarios.
+
+### Valor aportado
+Aprovecha las herramientas nativas de GitHub para el seguimiento de feedback, situando las correcciones exactamente donde los alumnos tienen el código, emulando un flujo de revisión de código profesional.
+
+### Criterios de aceptación
+- Debe existir una nueva pestaña del docente "Correcciones" en la que se listen todos los repos de las asignaciones.
+- Cada asignación debe poseer un botón "Crear Corrección" el cual redirija a la sección de creación de issues de ese repo en GitHub.
+- Debe haber un redirect a GitHub para ver todos los issues de un repo en específico.
