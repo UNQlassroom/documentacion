@@ -68,7 +68,7 @@ flowchart LR
 ### Frontend
 * **`CrearAsignacionModal.tsx` (Componente de Asignación):** Componente interactivo que renderiza el formulario de alta de asignación, valida los campos ingresados (título, descripción, fecha límite, template) y permite configurar la modalidad individual o grupal.
 * **`asignacionService.ts` (Servicio):** Módulo que centraliza la llamada hacia el backend mediante la función `crearAsignacion`.
-* **`Axios` (Tercero - Librería HTTP):** Cliente HTTP que serializa la petición JSON, inyecta el token Bearer desde el almacenamiento local y despacha la solicitud por la red.
+* **`Axios` (Librería HTTP):** Cliente HTTP que serializa la petición JSON, inyecta el token Bearer desde el almacenamiento local y despacha la solicitud por la red.
 
 ---
 
