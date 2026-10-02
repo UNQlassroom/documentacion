@@ -9,7 +9,7 @@ Las principales funcionalidades incorporadas incluyen:
 - **Autenticación segura:** Se implementó el registro y login delegando la identidad a GitHub (OAuth 2.0).
 - **Gestión de Asignaciones:** Los docentes ahora pueden crear asignaciones (individuales o grupales) y los alumnos pueden acceder a un panel dedicado para visualizar sus entregas pendientes.
 - **Flujo de Entrega Automatizado:** Se desarrolló un sistema donde el alumno entrega su trabajo desde la plataforma, orquestando la creación automática de un *Release* en GitHub.
-- **Sistema de Calificación y Retroalimentación Nativo:** Los docentes pueden calificar con una nota numérica y enviar comentarios que impactan directamente como *Issues* en los repositorios de los alumnos.
+- **Sistema de Calificación y Retroalimentación Nativo:** Los docentes pueden calificar con una nota numérica y enviar comentarios que impactan directamente en la vista de los alumnos.
 
 ### Decisiones tomadas
 - **Adopción de OAuth 2.0 para Login:** Se decidió descartar el registro manual con contraseña. Al forzar el inicio de sesión con GitHub, eliminamos el margen de error humano al tipear el *username*, garantizando que la orquestación de repositorios siempre apunte al usuario correcto.
