@@ -8,6 +8,8 @@
 
 ## Diagrama 
 
+![Diagrama de creación de asignación](https://github.com/UNQlassroom/documentacion/blob/main/crear-asignacion.png?raw=true)
+
 ```mermaid
 flowchart LR
 %% Estilos para diferenciar componentes Propios y de Terceros
