@@ -24,7 +24,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US48 - Crear registro/login de usuarios[cite: 1]
 **Actor/es:** Docente / Alumno
 **Funcionalidad:** Como usuario, quiero poder registrarme e iniciar sesión en la plataforma utilizando mi cuenta de GitHub.
+
 **Valor aportado:** Agiliza el acceso a la plataforma, elimina la necesidad de gestionar contraseñas locales y garantiza que el nombre de usuario coincida exactamente con el perfil de GitHub, evitando fallos en la asignación de repositorios.
+
 **Criterios de aceptación:**
 - La pantalla de inicio debe mostrar un botón "Iniciar sesión con GitHub".
 - El sistema debe utilizar el protocolo OAuth 2.0 para autenticar al usuario.
@@ -35,7 +37,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US20 - Crear asignación (Individual/Grupal)[cite: 1]
 **Actor/es:** Docente
 **Funcionalidad:** Como docente, quiero poder crear nuevas asignaciones dentro de mi curso, definiendo si son de resolución individual o grupal.
+
 **Valor aportado:** Permite estructurar la cursada, definir las reglas de entrega y preparar el terreno para que el sistema aprovisione los repositorios correspondientes para cada alumno o equipo.
+
 **Criterios de aceptación:**
 - Debe existir un formulario de creación de asignación dentro de la vista del curso.
 - El formulario debe permitir ingresar título, descripción, fecha límite (*deadline*) y seleccionar la modalidad (Individual o Grupal).
@@ -46,7 +50,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US21 - Visualizar detalles y equipo de la asignación[cite: 1]
 **Actor/es:** Docente / Alumno
 **Funcionalidad:** Como usuario, quiero poder entrar a una asignación específica para ver su descripción, fecha de entrega y quiénes conforman el equipo de trabajo.
+
 **Valor aportado:** Otorga claridad sobre los requisitos del trabajo práctico y fomenta la organización interna de los alumnos al transparentar quiénes tienen acceso al repositorio compartido.
+
 **Criterios de aceptación:**
 - Al hacer clic en una asignación, se debe navegar a una vista de detalle.
 - Se debe mostrar el título, la consigna, la fecha límite y el estado actual de la entrega.
@@ -57,7 +63,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US49 - Acceder a un curso como docente[cite: 1]
 **Actor/es:** Docente
 **Funcionalidad:** Como docente, quiero poder acceder a un curso en específico para poder crear asignaciones y tener más detalles del mismo.
+
 **Valor aportado:** Centraliza la administración de la materia, dándole al profesor un panel de control único para gestionar alumnos, crear tareas y monitorear el progreso.
+
 **Criterios de aceptación:**
 - Debo poder ver el listado de alumnos e invitarlos.
 - Debo poder crear asignaciones individuales/grupales.
@@ -68,7 +76,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US50 - Acceder a un curso como alumno[cite: 1]
 **Actor/es:** Alumno
 **Funcionalidad:** Como alumno, quiero poder acceder a un curso en específico para poder ver mis asignaciones, mis calificaciones y mis tiempos de entrega asignados.
+
 **Valor aportado:** Le brinda al estudiante un espacio de trabajo organizado, reduciendo la fricción para encontrar sus tareas y consultar el estado de sus evaluaciones.
+
 **Criterios de aceptación:**
 - Debo poder ver el listado de asignaciones del curso.
 - Debo poder visualizar mis calificaciones y los estados de entrega (pendiente, entregado, corregido).
@@ -79,7 +89,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US77 - Entregar asignación[cite: 1]
 **Actor/es:** Alumno
 **Funcionalidad:** Como alumno, quiero poder marcar mi asignación como entregada desde la plataforma para que el docente sepa que finalicé mi trabajo.
+
 **Valor aportado:** Facilita el proceso de entrega sin requerir conocimientos avanzados de control de versiones. Automatiza la generación de una versión inmutable (*Release*) del código para que el docente corrija exactamente lo que se entregó antes del cierre.
+
 **Criterios de aceptación:**
 - La vista de la asignación debe tener un botón para "Entregar" que solo esté habilitado si la fecha actual es anterior al *deadline*.
 - Al accionar el botón, el sistema debe cambiar el estado de la entrega en la base de datos.
@@ -90,7 +102,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US51 - Calificar asignación[cite: 1]
 **Actor/es:** Docente
 **Funcionalidad:** Como docente, quiero calificar las asignaciones de los alumnos para que obtengan una nota numérica por su trabajo.
+
 **Valor aportado:** Cierra el ciclo de evaluación académica, permitiendo llevar un registro persistente del rendimiento del alumno en la base de datos de la institución.
+
 **Criterios de aceptación:**
 - Cada entrega listada en el panel del docente debe poseer un botón "Calificar".
 - Al accionar el botón, se debe abrir un modal de calificación.
@@ -101,7 +115,9 @@ Las principales funcionalidades incorporadas incluyen:
 ### US53 - Crear issues sobre las asignaciones[cite: 1]
 **Actor/es:** Docente
 **Funcionalidad:** Como docente, quiero poder escribir una retroalimentación detallada al momento de calificar, y que esta se publique automáticamente como un *Issue* en el repositorio del alumno.
+
 **Valor aportado:** Entrega el *feedback* en el entorno natural del desarrollador (GitHub), fomentando que el alumno interactúe con las herramientas estándar de la industria para leer sus correcciones.
+
 **Criterios de aceptación:**
 - El modal de calificación debe incluir un campo de texto para la retroalimentación.
 - Al confirmar la calificación, el backend debe consumir la API de GitHub para crear un *Issue* en el repositorio correspondiente.
