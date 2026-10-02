@@ -6,9 +6,11 @@
 
 ---
 
-## Diagrama 
+## Vista del Docente 
 
 ![Diagrama de creación de asignación](https://github.com/UNQlassroom/documentacion/blob/main/crear-asignacion.png?raw=true)
+
+## Diagrama 
 
 ```mermaid
 flowchart LR
