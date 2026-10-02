@@ -3,7 +3,7 @@
 ## Resumen Ejecutivo
 
 ### Qué se agregó/modificó en esta iteración
-En esta primera iteración formal, el producto evolucionó de una prueba de concepto (PoC) a una plataforma funcional capaz de gestionar el ciclo de vida completo de una asignación académica. 
+En esta primera entrega, el producto evolucionó de una prueba de concepto (PoC) a una plataforma funcional capaz de gestionar el ciclo de vida completo de una asignación académica. 
 
 Las principales funcionalidades incorporadas incluyen:
 - **Autenticación segura:** Se implementó el registro y login delegando la identidad a GitHub (OAuth 2.0).
@@ -14,7 +14,6 @@ Las principales funcionalidades incorporadas incluyen:
 ### Decisiones tomadas
 - **Adopción de OAuth 2.0 para Login:** Se decidió descartar el registro manual con contraseña. Al forzar el inicio de sesión con GitHub, eliminamos el margen de error humano al tipear el *username*, garantizando que la orquestación de repositorios siempre apunte al usuario correcto.
 - **Reemplazo de GitHub Teams por manejo propio:** Decidimos abandonar la dependencia de los *Teams* de GitHub para organizar a los alumnos. La base de datos relacional (PostgreSQL) se consolidó como la única fuente de verdad para los roles (Docente/Alumno) y agrupaciones, utilizando a GitHub puramente como infraestructura de almacenamiento de código.
-- **Desacople de la Calificación (Nota vs. Feedback):** A nivel arquitectónico, definimos que la nota numérica se persiste en nuestra base de datos local para el cálculo de promedios, mientras que el texto de retroalimentación no se guarda localmente, sino que se inyecta vía API como un *Issue* en el repositorio del alumno.
 - **Entregas mediante Releases Automáticos:** Para evitar que alumnos sin experiencia lidien con comandos complejos de Git para "sellar" una entrega, decidimos que el backend de Spring Boot automatice la creación de un *Release* en el repositorio cuando el alumno presiona el botón "Entregar" antes de la fecha límite.
 
 ---
