@@ -95,7 +95,7 @@ Como docente quiero que el estado de los alumnos invitados se actualice automát
 Optimiza el seguimiento administrativo del curso, aportando visibilidad instantánea sobre el estado de incorporación de los estudiantes a la organización de GitHub.
 
 ### Criterios de aceptación
-- El estado del usuario se sincroniza automáticamente sin tener que presionar el botón "Sincronizar con GitHub".
+- Se debe actualizar el estado del alumno en la organización dentro de la vista del docente sin requerir una consulta manual a la API de GitHub.
 
 ---
 
@@ -111,7 +111,7 @@ Como docente quiero que el estado de último commit, fechaÚltimoCommit, y estad
 Garantiza un monitoreo preciso y al instante de la actividad de desarrollo, facilitando la detección temprana de bloqueos técnicos o falta de avance en los repositorios.
 
 ### Criterios de aceptación
-- Los cambios en los commits y el pipeline de Integración Continua se reflejan de manera automática en el dashboard del docente apenas ocurren en el repositorio remoto.
+- Se deben actualizar los commits y CI en la vista del docente sin requerir una consulta manual a la API de GitHub.
 
 ---
 
@@ -127,7 +127,7 @@ Como docente quiero que las releases/entregas de los alumnos se actualicen autom
 Elimina la fricción en la fiscalización de las entregas, notificando de inmediato cuando un estudiante oficializa su versión a evaluar.
 
 ### Criterios de aceptación
-- La recepción de un nuevo Release en GitHub actualiza instantáneamente el estatus de la entrega en la plataforma del docente.
+- Se deben actualizar los releases en la vista del docente sin requerir una consulta manual a la API de GitHub.
 
 ---
 
