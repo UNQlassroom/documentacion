@@ -4,18 +4,18 @@
 
 ### Qué se agregó/modificó en esta iteración
 
-En esta segunda entrega, el sistema profundiza en la automatización y la experiencia de usuario tanto para el docente como para los alumnos, incorporando capacidades de gestión avanzada sobre las asignaciones y sincronización asincrónica bidireccional en tiempo real con la API de GitHub.
+En esta segunda entrega, el sistema profundiza en la automatización y la experiencia de usuario tanto para el docente como para los alumnos, incorporando capacidades de gestión sobre las asignaciones y sincronización asincrónica mediante webhooks con la API de GitHub.
 
 Las funcionalidades desarrolladas incluyen:
 
-- **Gestión Avanzada de Asignaciones**, permitiendo al docente modificar los datos permitidos (descripción y fecha de entrega) de una asignación existente con actualización inmediata en tiempo real, o eliminarla de forma segura garantizando la baja de los repositorios asociados en cascada.
+- **Gestión de Asignaciones**, permitiendo al docente modificar los datos permitidos de una asignación existente con actualización inmediata en tiempo real, o eliminarla de forma segura garantizando la baja de los repositorios asociados.
 - **Administración de Repositorios Template**, facilitando la creación y el listado de plantillas base para estructurar de forma estandarizada las nuevas asignaciones.
 - **Sincronización en Tiempo Real con Webhooks de GitHub**, eliminando la necesidad de refrescar manualmente contra la API. Esto incluye la actualización automática del estado de invitación de los usuarios, los commits y estados de CI, la recepción de entregas mediante Releases y el seguimiento de Issues y comentarios en vivo.
 
 ### Decisiones tomadas
 
 #### Sincronización asincrónica basada en Webhooks
-Para cumplir con los requerimientos de tiempo real sin saturar los límites de peticiones (*rate limits*) de la API de GitHub, se implementó un sistema de recepción de Webhooks. De esta forma, cualquier evento relevante (commits, cambios en issues, aperturas de PRs/Releases o aceptación de invitaciones) impacta de forma inmediata en la base de datos local y refresca la interfaz mediante componentes reactivos, evitando consultas manuales constantes (*polling*).
+Para cumplir con los requerimientos de tiempo real sin saturar los límites de peticiones (*rate limits*) de la API de GitHub, se implementó un sistema de recepción de Webhooks. De esta forma, cualquier evento relevante (commits, cambios en issues, aperturas de PRs/Releases o aceptación de invitaciones) impacta de forma inmediata en la base de datos local, evitando consultas constantes hacia GitHub.
 
 #### Borrado en cascada asincrónico y validaciones de integridad
 Al momento de eliminar una asignación, se priorizó la respuesta inmediata de la interfaz delegando el borrado masivo de los repositorios en la organización de GitHub a un proceso en segundo plano. Asimismo, se implementó una regla de negocio estricta que bloquea la eliminación si la asignación ya posee entregas o calificaciones registradas, resguardando la integridad académica del curso.
