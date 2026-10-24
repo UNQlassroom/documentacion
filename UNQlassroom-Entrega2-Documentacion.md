@@ -8,9 +8,9 @@ En esta segunda entrega, el sistema profundiza en la automatización y la experi
 
 Las funcionalidades desarrolladas incluyen:
 
-- **Gestión de Asignaciones**, permitiendo al docente modificar los datos de una asignación existente con actualización inmediata en tiempo real, o eliminarla de forma segura garantizando la baja de los repositorios asociados.
+- **Gestión de Asignaciones**, permitiendo al docente modificar los datos de una asignación existente con actualización inmediata, o eliminarla de forma segura garantizando la baja de los repositorios asociados.
 - **Administración de Repositorios Template**, facilitando la creación y el listado de plantillas base para estructurar de forma estandarizada las nuevas asignaciones.
-- **Sincronización en Tiempo Real con Webhooks de GitHub**, eliminando la necesidad de refrescar manualmente contra la API. Esto incluye la actualización automática del estado de invitación de los usuarios, los commits y estados de CI, la recepción de entregas mediante Releases y el seguimiento de Issues y comentarios en vivo.
+- **Sincronización con Webhooks de GitHub**, eliminando la necesidad de refrescar manualmente contra la API. Esto incluye la actualización automática del estado de invitación de los usuarios, los commits y estados de CI, la recepción de entregas mediante Releases y el seguimiento de Issues y comentarios en vivo.
 
 ### Decisiones tomadas
 
