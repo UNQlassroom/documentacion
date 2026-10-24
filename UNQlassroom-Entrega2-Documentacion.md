@@ -4,11 +4,11 @@
 
 ### Qué se agregó/modificó en esta iteración
 
-En esta segunda entrega, el sistema profundiza en la automatización y la experiencia de usuario tanto para el docente como para los alumnos, incorporando capacidades de gestión sobre las asignaciones y sincronización asincrónica mediante webhooks con la API de GitHub.
+En esta segunda entrega, el sistema profundiza en la automatización y la experiencia de usuario tanto para el docente como para los alumnos, incorporando capacidades de gestión sobre las asignaciones y sincronización asincrónica mediante webhooks de GitHub.
 
 Las funcionalidades desarrolladas incluyen:
 
-- **Gestión de Asignaciones**, permitiendo al docente modificar los datos permitidos de una asignación existente con actualización inmediata en tiempo real, o eliminarla de forma segura garantizando la baja de los repositorios asociados.
+- **Gestión de Asignaciones**, permitiendo al docente modificar los datos de una asignación existente con actualización inmediata en tiempo real, o eliminarla de forma segura garantizando la baja de los repositorios asociados.
 - **Administración de Repositorios Template**, facilitando la creación y el listado de plantillas base para estructurar de forma estandarizada las nuevas asignaciones.
 - **Sincronización en Tiempo Real con Webhooks de GitHub**, eliminando la necesidad de refrescar manualmente contra la API. Esto incluye la actualización automática del estado de invitación de los usuarios, los commits y estados de CI, la recepción de entregas mediante Releases y el seguimiento de Issues y comentarios en vivo.
 
