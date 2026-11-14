@@ -274,13 +274,13 @@ Reduce la fatiga visual y agiliza las acciones de administración cotidiana medi
 - Docente
 
 ### Funcionalidad
-Como docente de la plataforma UNQlassroom, quiero poder importar un repositorio existente de GitHub (propio o de terceros mediante su URL o slug) para transformarlo en una plantilla oficial de la cátedra.
+Como docente de la plataforma UNQlassroom, quiero poder importar un repositorio existente de GitHub (propio o de terceros mediante su URL) para transformarlo en una plantilla oficial de la cátedra.
 
 ### Valor aportado
 Permite reutilizar código base y consignas previas de manera automatizada, aplicando estandarización tecnológica sin fricciones manuales.
 
 ### Criterios de aceptación
-- **Endpoint de importación:** El sistema expone un `POST /templates` protegido para docentes que procesa el parámetro `repoAImportar` (con soporte para slugs cortos, URLs HTTPS y SSH).
+- **Endpoint de importación:** El sistema expone un `POST /templates` protegido para docentes que procesa el parámetro `repoAImportar` (con soporte para URLs HTTPS).
 - **Replicación atómica y detección de stack:** La subida de archivos del repo externo se realiza en un único commit atómico utilizando la Git Data API, mientras el backend inspecciona el árbol de archivos para detectar el ecosistema (`JAVA_MAVEN`, `JAVA_GRADLE`, `PYTHON`, `NODE_JS`, `DOTNET`) e inyectar el pipeline correspondiente.
 - **Experiencia de usuario (UI):** El front permite ingresar la URL de origen con autocompletado del nombre sugerido, bloqueando controles y mostrando un spinner contextual durante el procesamiento (con timeout HTTP extendido a 60s).
 - **Manejo de errores y Sincronización:** Ante fallos (repositorios privados o inválidos), la modal retiene los datos y expone el error claramente. Tras el éxito (`201`), muestra el enlace directo al repositorio creado en GitHub y refresca el listado local de plantillas.
